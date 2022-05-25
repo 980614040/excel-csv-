@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+<ProcessTimer>
+	<!--CSVファイル作成と転送処理の起動頻度(単位:秒)-->
+	<IntervalOfCreateCsvFile>60</IntervalOfCreateCsvFile>
+	<IntervalOfTransferCsvFile>30</IntervalOfTransferCsvFile>
+</ProcessTimer>
+<Processors>
+	<Processor Code="1"  Name="入荷計画">
+	   <DataFolder RootPath="C:\Tools\CSVCreateTool\Data\NyuKaData\">
+			<Input>Input</Input> 
+			<Working>Working</Working>
+			<Backup>Backup</Backup>
+			<Error>Error</Error>
+			<Transfer>Transfer</Transfer>
+			<FullWESFileName>C:\DATA\NYUKADT\Current\IORDER.csv</FullWESFileName>
+	   </DataFolder>
+	   <ExcelFileInfo>
+			<FileName>*交接单*.xlsx,*交接单*.xls</FileName>
+			<SheetName>*</SheetName>
+			<StartRowNo>6</StartRowNo>
+	   </ExcelFileInfo>
+	   <CSVItemInfo>
+		    <!--ItemType:1文字列 2数字 3日付 、Necessary:1必須 0(1以外)必須でない  ValueType: 1動態位置の値(ColNoのみして、RowNoがループ値) 2固定位置の値(RowNoとColNo両方とも指定) 3固定値-->
+			<Item Name="SEQ"                 ExcelItemName="序号"              ItemType="1"  MaxLen="10"    Necessary="1"  ValueType="1" ColNo="1" ValidFieldFlag="1" />
+			<Item Name="部品番号"           ExcelItemName="部品号码"       ItemType="1"  MaxLen="25"    Necessary="1"  ValueType="1" ColNo="2" />
+			<Item Name="部品名称"           ExcelItemName="部品名称"       ItemType="1"  MaxLen="100"  Necessary="1"  ValueType="1" ColNo="3" />
+			<Item Name="部品規格"           ExcelItemName="型号规格"       ItemType="1"  MaxLen="256"  Necessary="1"  ValueType="1" ColNo="4" />
+			<Item Name="数量"                 ExcelItemName="数量"              ItemType="2"  MaxLen="7"      Necessary="1"  ValueType="1" ColNo="5" />
+			<Item Name="備考"                 ExcelItemName="备注"              ItemType="1"  MaxLen="256"  Necessary="1"  ValueType="1" ColNo="6" />
+			<Item Name="倉庫ﾛｹｰｼｮﾝ番号" ExcelItemName="货架号"           ItemType="1"  MaxLen="20"    Necessary="1"  ValueType="1" ColNo="7" />
+			<Item Name="取引先コード"    ExcelItemName="产家代码"        ItemType="1"  MaxLen="10"   Necessary="1"  ValueType="1" ColNo="8" />
+			<Item Name="伝票No"             ExcelItemName="交接单传票号"  ItemType="1"  MaxLen="20"   Necessary="1"  ValueType="1" ColNo="9" />
+			<Item Name="入荷予定日"       ExcelItemName="入库日期"         ItemType="3"  MaxLen="0"   Necessary="1"  ValueType="1" ColNo="10" />
+		</CSVItemInfo>
+	</Processor>
+	<Processor Code="2"  Name="部品マスター">
+	   <DataFolder RootPath="C:\Tools\CSVCreateTool\Data\Item\">
+			<Input>Input</Input> 
+			<Working>Working</Working>
+			<Backup>Backup</Backup>
+			<Error>Error</Error>
+			<Transfer>Transfer</Transfer>
+			<FullWESFileName>C:\DATA\MASTER\Current\ITEMMST.csv</FullWESFileName>
+	   </DataFolder>
+	   <ExcelFileInfo>
+			<FileName>*SMT部品*.xlsx,*SMT部品*.xls</FileName>
+			<SheetName>INV部品,SV部品,HMI部品,高压部品</SheetName>
+			<StartRowNo>2</StartRowNo>
+	   </ExcelFileInfo>
+	   <CSVItemInfo>
+			<Item Name="部品コード"  ExcelItemName="部品编码"   ItemType="1"  MaxLen="25"   Necessary="1"  ValueType="1" ColNo="1" ValidFieldFlag="1" />
+			<Item Name="規格"            ExcelItemName="图号规格"  ItemType="1"  MaxLen="256"  Necessary="1"  ValueType="1" ColNo="4" />
+			<Item Name="入り数"        ExcelItemName="SPQ"         ItemType="2"  MaxLen="5"      Necessary="1"  ValueType="1" ColNo="5" />
+			<Item Name="取引先名称"  ExcelItemName="供应商"  ItemType="1"     MaxLen="256"   Necessary="1"  ValueType="1" ColNo="6" />
+			<Item Name="棚番号"        ExcelItemName="库位"         ItemType="1"  MaxLen="20"    Necessary="1"  ValueType="1" ColNo="7" />
+			<Item Name="部品名称"     ExcelItemName="中文品名"   ItemType="1"  MaxLen="100"  Necessary="1"  ValueType="1" ColNo="3" />
+			<Item Name="入庫日"        ExcelItemName="登陆日期"   ItemType="3"  MaxLen="0"   Necessary="1"  ValueType="3"  Value="[YYYY/MM/DD]"/>
+			<Item Name="通し番号"     ExcelItemName="流水号"      ItemType="1"  MaxLen="15"    Necessary="1"  ValueType="3"  Value="-"/>
+			<Item Name="作業者"        ExcelItemName="作业人员"   ItemType="1"  MaxLen="20"    Necessary="1"  ValueType="3"  Value="sys"/>
+			<Item Name="有効期間"     ExcelItemName="有效期间"   ItemType="2"  MaxLen="5"      Necessary="1"  ValueType="1" ColNo="8" />
+			<Item Name="有効期限"     ExcelItemName="有效期限"   ItemType="3"  MaxLen="0"    Necessary="1"  ValueType="91"/>
+		</CSVItemInfo>
+	</Processor>
+	<Processor Code="3"  Name="SMT照合マスター">
+	   <DataFolder RootPath="C:\Tools\CSVCreateTool\Data\SMT\">
+			<Input>Input</Input> 
+			<Working>Working</Working>
+			<Backup>Backup</Backup>
+			<Error>Error</Error>
+			<Transfer>Transfer</Transfer>
+			<FullWESFileName>C:\DATA\MASTER\Current\SMTMST.csv</FullWESFileName>
+	   </DataFolder>
+	   <ExcelFileInfo>
+			<FileName>*SMTBOM一览*.xlsx,*SMTBOM一览*.xls</FileName>
+			<SheetName>Sheet1</SheetName>
+			<StartRowNo>2</StartRowNo>
+	   </ExcelFileInfo>
+	   <CSVItemInfo>
+			<Item Name="機種"           ExcelItemName="部组图番"   ItemType="1"  MaxLen="20"   Necessary="1"  ValueType="1" ColNo="1" ValidFieldFlag="1" />
+			<Item Name="スロット"    ExcelItemName="ADDRESS"  ItemType="1"  MaxLen="20"   Necessary="1"  ValueType="1" ColNo="2" />
+			<Item Name="部品コード" ExcelItemName="品番"          ItemType="1"  MaxLen="25"   Necessary="1"  ValueType="1" ColNo="3" />
+		</CSVItemInfo>
+	</Processor>
+</Processors>
+</Root>

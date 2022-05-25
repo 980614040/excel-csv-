@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Messages>
+
+	<Msg MsgCode="MSG-000">发生系统错误。「详细：%1」</Msg>
+	<Msg MsgCode="MSG-001">配置文件中指定项目没有正确定义(项目名:「%1」，Xpath:「%2」,项目值:「%3」)。</Msg>
+	<Msg MsgCode="MSG-002">配置文件中需至少定义一个Processor。</Msg>
+	<Msg MsgCode="MSG-003">配置文件中每个Processor需至少定义一个CSV项目。</Msg>
+	<Msg MsgCode="MSG-004">配置文件中每个Processor需要配置一个含有效行判断项目的CSV项目。</Msg>
+	<Msg MsgCode="MSG-005">指定文件夹「%2」不存在或自动创建失败。「详细：%1」</Msg>
+</Messages>
